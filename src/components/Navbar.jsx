@@ -37,7 +37,7 @@ const Navbar = () => {
                         <Tab label='Reserva ahora!'/>
                     </Tabs>
 
-                    <Button sx={{marginLeft: 'auto'}}variant="contained"><PersonOutlineIcon/> Login</Button>
+                    <Button sx={{marginLeft: 'auto',backgroundColor: 'green' }}variant="contained"><PersonOutlineIcon/> Login</Button>
                     <Button variant="contained" sx={{marginLeft: '10px'}}><AssignmentIcon/> Sign up</Button>
                         </>
                     )

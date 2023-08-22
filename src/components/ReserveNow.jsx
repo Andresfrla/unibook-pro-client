@@ -4,8 +4,7 @@ import SendIcon from '@mui/icons-material/AddBusiness';
 const ReserveNow = () => {
     return(
         <>
-            <h2>Bienvenida a la magia</h2>
-        <Button variant="contained" sx={{backgroundColor: 'green'}} endIcon={<SendIcon />}>
+        <Button variant="contained" sx={{backgroundColor: 'green', marginTop: 10}} endIcon={<SendIcon />}>
             Reserva ahora! 
         </Button>
     </>
