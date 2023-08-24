@@ -23,7 +23,8 @@ const Navbar = () => {
                     {isMatch ? (
                         <DrawerComp />
                     ) : (
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center'}}>
+                            <div style={{ margin: 'auto' }}>
                             <Tabs
                                 value={value}
                                 onChange={(e, value) => setValue(value)}
@@ -34,6 +35,7 @@ const Navbar = () => {
                                 <Tab label="Acerca de" value="/acerca-de" to="acerca-de" component={Link}/>
                                 <Tab label="Reserva ahora!" value="/reserva-ahora" to="/reserva-ahora" component={Link}/>
                             </Tabs>
+                            </div>
                             <Button 
                             variant="contained" 
                             href='/login'

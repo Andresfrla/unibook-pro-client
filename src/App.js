@@ -7,6 +7,7 @@ import '@mui/material/styles';
 import Schedule from './pages/Schedule';
 import Services from './pages/Services';
 import { Route, Routes } from 'react-router-dom';
+import About from './pages/About';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path='/servicios' element={<Services/>}/>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/acerca-de' element={<About/>}/>
       </Routes>
     </div>
   );
