@@ -1,10 +1,12 @@
 import * as React from 'react';
 import founderImage from '../img/founder.jpg'
 import { Card, CardContent } from '@mui/material';
+import ReserveNow from '../components/ReserveNow';
 
 export default function Home() {
   return (
     <>
+    <ReserveNow/>
     <Card sx={{margin: 2}}>
         <CardContent>
             <img src={founderImage} alt={'founderImage'} width={280}/>

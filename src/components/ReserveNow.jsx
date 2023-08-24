@@ -1,5 +1,6 @@
 import { Button, ThemeProvider, createTheme } from "@mui/material"
 import SendIcon from '@mui/icons-material/AddBusiness';
+import { Link } from "react-router-dom";
 
 const theme = createTheme({
     palette: {
@@ -12,7 +13,9 @@ const theme = createTheme({
 const ReserveNow = () => {
     return (
         <ThemeProvider theme={theme}>
+          <Link to="/reserva-ahora" style={{ textDecoration: 'none' }}>
           <Button
+            to="/reserva-ahora"
             sx={{
               backgroundImage: 'linear-gradient(45deg, #FF6B98, #FFD3A5)',
               color: 'white',
@@ -31,8 +34,9 @@ const ReserveNow = () => {
             variant="contained"
             startIcon={<SendIcon />} 
           >
-            Ordenar ahora
+            Reserva ahora!
           </Button>
+          </Link>
         </ThemeProvider>
       );
     };

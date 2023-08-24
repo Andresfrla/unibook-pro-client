@@ -1,5 +1,6 @@
-import { Button, TextField } from "@mui/material"
+import { TextField } from "@mui/material"
 import PasswordField from "../components/PasswordField"
+import StyledButton from "../components/StyledButton"
 
 const Login = () => {
     return(
@@ -9,11 +10,7 @@ const Login = () => {
             <TextField label="Correo" sx={{margin: '10px'}} color="secondary" placeholder='maria@jeblush.com' focused />
             <PasswordField/>
             <br />
-            <Button 
-            sx={{
-                margin: '20px',
-                backgroundColor: 'black',
-            }}variant="contained">Login</Button>
+            <StyledButton>Login</StyledButton>
         </>
     )
 }

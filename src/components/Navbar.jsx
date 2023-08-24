@@ -4,6 +4,7 @@ import WhatshotIcon from '@mui/icons-material/Whatshot';
 import DrawerComp from './DrawerComp';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const [value, setValue] = React.useState();
@@ -15,10 +16,10 @@ const Navbar = () => {
         <React.Fragment>
             <AppBar position="sticky" elevation={0}>
                 <Toolbar sx={{ justifyContent: 'space-between', backgroundColor: 'black' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
                         <WhatshotIcon sx={{ marginRight: '10px', fontSize: '2rem', color: 'white' }} />
                         <Typography variant="h6" sx={{ color: 'white' }}>Je blush</Typography>
-                    </div>
+                    </Link>
                     {isMatch ? (
                         <DrawerComp />
                     ) : (
@@ -29,12 +30,20 @@ const Navbar = () => {
                                 textColor="inherit"
                                 indicatorColor="secondary"
                             >
-                                <Tab label="Servicios" />
-                                <Tab label="Acerca de" />
-                                <Tab label="Reserva ahora!" />
+                                <Tab label="Servicios" value="/servicios" to="/servicios" component={Link}/>
+                                <Tab label="Acerca de" value="/acerca-de" to="acerca-de" component={Link}/>
+                                <Tab label="Reserva ahora!" value="/reserva-ahora" to="/reserva-ahora" component={Link}/>
                             </Tabs>
-                            <Button variant="contained" startIcon={<PersonOutlineIcon />} sx={{ marginLeft: '10px', backgroundColor: '#E1306C', fontWeight: 'bold' }}>Login</Button>
-                            <Button variant="contained" startIcon={<AssignmentIcon />} sx={{ marginLeft: '10px', fontWeight: 'bold' }}>Sign up</Button>
+                            <Button 
+                            variant="contained" 
+                            href='/login'
+                            startIcon={<PersonOutlineIcon />} 
+                            sx={{ marginLeft: '10px', backgroundColor: '#E1306C', fontWeight: 'bold' }}>Login</Button>
+                            <Button 
+                            variant="contained"
+                            href="/signup" 
+                            startIcon={<AssignmentIcon />} 
+                            sx={{ marginLeft: '10px', fontWeight: 'bold' }}>Sign up</Button>
                         </div>
                     )}
                 </Toolbar>

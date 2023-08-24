@@ -5,7 +5,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 
 export default function DigitalClockTimeStep() {
   const [selectedHour, setSelectedHour] = React.useState(11); // Default value: 11
@@ -24,10 +23,10 @@ export default function DigitalClockTimeStep() {
       <DemoContainer components={['DigitalClock', 'MultiSectionDigitalClock']}>
         <DemoItem label="Selecciona la hora de tu servicio">
           <FormControl>
-            <InputLabel>Selecciona una hora</InputLabel>
             <Select
               value={selectedHour}
               onChange={handleHourChange}
+              sx={{ backgroundColor: 'white' }}
             >
               {Array.from({ length: 8 }, (_, index) => 11 + index).map((hour) => (
                 <MenuItem key={hour} value={hour} disabled={isHourDisabled(hour)}>
