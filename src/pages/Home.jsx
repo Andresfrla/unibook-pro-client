@@ -2,6 +2,7 @@ import * as React from 'react';
 import founderImage from '../img/founder.jpg'
 import { Card, CardContent, Grid, useMediaQuery, useTheme } from '@mui/material';
 import ReserveNow from '../components/ReserveNow';
+import logo from '../img/logobnw.png'
 
 export default function Home() {
     const theme = useTheme();
@@ -18,7 +19,7 @@ export default function Home() {
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <h3>Quienes somos?</h3>
-                            <h2>Je blush</h2>
+                            <img src={logo} width='200px' alt='logo'/>
                             <p style={{ textAlign: 'left' }}>Somos un exclusivo estudio especializado en la transformación de miradas. Mediante procedimientos en cejas, pestañas y utilizando productos de la más alta calidad lograremos darle a tu rostro ese Glow que te hará lucir increíble todo el tiempo.
                             <br />
                             <br />

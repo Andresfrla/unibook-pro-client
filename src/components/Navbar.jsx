@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { AppBar, Button, Tab, Tabs, Toolbar, Typography, useMediaQuery, useTheme } from '@mui/material';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
+import { AppBar, Button, Tab, Tabs, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import DrawerComp from './DrawerComp';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link } from 'react-router-dom';
+import logo from '../img/logo.png'
 
 const Navbar = () => {
     const [value, setValue] = React.useState();
@@ -16,9 +16,8 @@ const Navbar = () => {
         <React.Fragment>
             <AppBar position="sticky" elevation={0}>
                 <Toolbar sx={{ justifyContent: 'space-between', backgroundColor: 'black' }}>
-                    <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
-                        <WhatshotIcon sx={{ marginRight: '10px', fontSize: '2rem', color: 'white' }} />
-                        <Typography variant="h6" sx={{ color: 'white' }}>Je blush</Typography>
+                    <Link to="/" style={{ display: 'flex', alignItems: 'center', margin: '15px' }}>
+                        <img src={logo} width='100px' alt='logo'/>
                     </Link>
                     {isMatch ? (
                         <DrawerComp />
