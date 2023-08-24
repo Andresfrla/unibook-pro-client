@@ -1,36 +1,44 @@
 import * as React from 'react';
-import dayjs from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 
-export default function CustomTimePicker() {
-  const [selectedDate, setSelectedDate] = React.useState(dayjs());
+export default function DigitalClockTimeStep() {
+  const [selectedHour, setSelectedHour] = React.useState(11); // Default value: 11
 
-  const handleHoursChange = (hours) => {
-    setSelectedDate(selectedDate.set('hour', hours).set('minute', 0)); // Establecer minutos a 0
+  const handleHourChange = (event) => {
+    setSelectedHour(event.target.value);
+  };
+
+  const isHourDisabled = (hour) => {
+    return hour < 11 || hour > 19; // Disable hours before 11 AM and after 7 PM
   };
 
   return (
+    <div style={{margin: '40px'}}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer
-        components={[
-          'TimePicker',
-          'MobileTimePicker',
-          'DesktopTimePicker',
-          'StaticTimePicker',
-        ]}
-      >
-        <DemoItem label="Custom TimePicker">
-          <TimePicker
-            value={selectedDate}
-            onChange={handleHoursChange}
-            ampm={false}
-            views={['hours']} // Solo mostrar la vista de horas
-          />
+      <DemoContainer components={['DigitalClock', 'MultiSectionDigitalClock']}>
+        <DemoItem label="Selecciona la hora de tu servicio">
+          <FormControl>
+            <InputLabel>Selecciona una hora</InputLabel>
+            <Select
+              value={selectedHour}
+              onChange={handleHourChange}
+            >
+              {Array.from({ length: 8 }, (_, index) => 11 + index).map((hour) => (
+                <MenuItem key={hour} value={hour} disabled={isHourDisabled(hour)}>
+                  {`${hour}:00 ${hour >= 12 ? 'PM' : 'AM'}`}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </DemoItem>
       </DemoContainer>
     </LocalizationProvider>
+    </div>
   );
 }

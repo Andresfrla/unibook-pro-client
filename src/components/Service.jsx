@@ -5,13 +5,14 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import microblading from '../img/microblading.jpg'
 
 export default function Service() {
   return (
     <Card sx={{ maxWidth: 345, margin: 5 }}>
       <CardMedia
         sx={{ height: 140}}
-        image="/static/images/cards/contemplative-reptile.jpg"
+        image={microblading}
         title="green iguana"
       />
       <CardContent>
@@ -20,6 +21,7 @@ export default function Service() {
         </Typography>
         <Typography variant="body2" color="text.secondary">
         Obtén cejas perfectas y naturales con el microblading. 
+        $ 2.600
         </Typography>
       </CardContent>
       <CardActions>
