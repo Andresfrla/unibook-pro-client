@@ -5,28 +5,57 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import microblading from '../img/microblading.jpg'
+import axios from 'axios'
+import { API_URL } from '../utils/constants';
+import { Link } from 'react-router-dom';
 
 export default function Service() {
+  const [services, setServices] = React.useState([]);
+
+  const getAllServices = async () => {
+    try{
+      const response = await axios.get(`${API_URL}/api/servicios`)
+      setServices(response.data) 
+    } catch {
+
+    }
+  }
+
+  React.useEffect(() => {
+    getAllServices()
+  }, [])
+  
   return (
-    <Card sx={{ maxWidth: 345, margin: 5 }}>
+    <div >
+      {services.map(service => 
+        <div key={service._id}>
+              <Card sx={{ maxWidth: 345, margin: 5 }}>
       <CardMedia
         sx={{ height: 140}}
-        image={microblading}
-        title="green iguana"
+        image={service.image}
+        title={service.name}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          NanoBlading
+          {service.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-        Obtén cejas perfectas y naturales con el microblading. 
-        $ 2.600
+        {service.description}
+        <br />
+        $ {service.price}
         </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Mas info</Button>
-      </CardActions>
-    </Card>
+        </CardContent>
+          <CardActions>
+            <Button 
+            size="small"
+            component={Link}
+            to={`/servicios/${service._id}`}
+            >Mas info</Button>
+          </CardActions>
+          </Card>
+        </div>
+        )}
+
+    </div>
   );
 }

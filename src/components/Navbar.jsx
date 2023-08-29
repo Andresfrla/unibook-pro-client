@@ -37,12 +37,16 @@ const Navbar = () => {
                             </div>
                             <Button 
                             variant="contained" 
-                            href='/login'
+                            value="/login"
+                            to='/login'
+                            component={Link}
                             startIcon={<PersonOutlineIcon />} 
                             sx={{ marginLeft: '10px', backgroundColor: '#E1306C', fontWeight: 'bold' }}>Login</Button>
                             <Button 
                             variant="contained"
-                            href="/signup" 
+                            value="/signup"
+                            to='/signup'
+                            component={Link}
                             startIcon={<AssignmentIcon />} 
                             sx={{ marginLeft: '10px', fontWeight: 'bold' }}>Sign up</Button>
                         </div>
