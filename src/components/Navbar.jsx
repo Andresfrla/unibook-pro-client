@@ -33,6 +33,7 @@ const Navbar = () => {
                                 <Tab label="Servicios" value="/servicios" to="/servicios" component={Link}/>
                                 <Tab label="Acerca de" value="/acerca-de" to="acerca-de" component={Link}/>
                                 <Tab label="Reserva ahora!" value="/reserva-ahora" to="/reserva-ahora" component={Link}/>
+                                <Tab label="Añadir servicio" value="/añadir-servicio" to="/añadir-servicio" component={Link}/>
                             </Tabs>
                             </div>
                             <Button 
