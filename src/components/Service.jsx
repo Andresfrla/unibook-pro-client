@@ -8,12 +8,20 @@ import Typography from '@mui/material/Typography';
 import microblading from '../img/microblading.jpg'
 
 export default function Service() {
+  const [services, setServices] = React.useState([]);
+
   return (
+    <div >
+      {services.map(service => 
+        <div key={service._id}>
+          
+        </div>
+        )}
     <Card sx={{ maxWidth: 345, margin: 5 }}>
       <CardMedia
         sx={{ height: 140}}
         image={microblading}
-        title="green iguana"
+        title="microblading"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -25,8 +33,12 @@ export default function Service() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Mas info</Button>
+        <Button 
+        size="small"
+        to=""
+        >Mas info</Button>
       </CardActions>
     </Card>
+    </div>
   );
 }
