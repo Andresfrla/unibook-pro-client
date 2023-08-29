@@ -8,6 +8,7 @@ import Schedule from './pages/Schedule';
 import Services from './pages/Services';
 import { Route, Routes } from 'react-router-dom';
 import About from './pages/About';
+import ServiceDetail from './pages/ServiceDetail';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/acerca-de' element={<About/>}/>
+        <Route path='/servicios/:serviceId' element={<ServiceDetail/>}/>
       </Routes>
     </div>
   );
