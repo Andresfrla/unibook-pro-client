@@ -43,6 +43,11 @@ const DrawerComp = () => {
                             <ListItemText><AddBusinessIcon/> Reserva ahora!</ListItemText>
                         </ListItemIcon>
                     </ListItem>
+                    <ListItem component={Link} to="/añadir-servicio">
+                        <ListItemIcon>
+                            <ListItemText> Añadir servicio</ListItemText>
+                        </ListItemIcon>
+                    </ListItem>
                 </List>
             </Drawer>
             <IconButton sx={{color: 'white', marginLeft: 'auto'}} onClick={() => setOpenDrawer(!openDrawer)}>

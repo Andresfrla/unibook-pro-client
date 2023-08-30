@@ -42,7 +42,7 @@ const Navbar = () => {
                             to='/login'
                             component={Link}
                             startIcon={<PersonOutlineIcon />} 
-                            sx={{ marginLeft: '10px', backgroundColor: '#E1306C', fontWeight: 'bold' }}>Login</Button>
+                            w>Login</Button>
                             <Button 
                             variant="contained"
                             value="/signup"
