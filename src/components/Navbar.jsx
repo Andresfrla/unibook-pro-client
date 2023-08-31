@@ -49,7 +49,7 @@ const Navbar = () => {
                             to='/signup'
                             component={Link}
                             startIcon={<AssignmentIcon />} 
-                            sx={{ marginLeft: '10px', fontWeight: 'bold' }}>Sign up</Button>
+                            sx={{ marginLeft: '10px', backgroundColor: '#E1306C', fontWeight: 'bold', color: "white" }}>Sign up</Button>
                         </div>
                     )}
                 </Toolbar>

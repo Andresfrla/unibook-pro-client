@@ -33,12 +33,19 @@ const EditServices = () => {
             handleUpdateForm('duration', oneService.duration)
         })
         .catch(err => console.log(err))
-    }, [])
+    }, [serviceId])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await axios.put(`${API_URL}/api/servicios/${serviceId}`, updateServiceForm)
-        navigate("/servicios")
+        try {
+            await axios.put(`${API_URL}/api/servicios/${serviceId}`, updateServiceForm)
+            navigate("/servicios")
+        }
+        catch (error) {
+            console.error("Error:", error);
+            console.error("Axios response:", error.response);
+        }
+        
     }
 
     return (
