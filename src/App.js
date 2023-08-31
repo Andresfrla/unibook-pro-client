@@ -9,6 +9,8 @@ import Services from './pages/Services';
 import { Route, Routes } from 'react-router-dom';
 import About from './pages/About';
 import ServiceDetail from './pages/ServiceDetail';
+import AddService from './pages/AddService';
+import EditServices from './pages/EditServices';
 
 
 function App() {
@@ -22,7 +24,9 @@ function App() {
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/acerca-de' element={<About/>}/>
+        <Route path='/añadir-servicio' element={<AddService/>}/>
         <Route path='/servicios/:serviceId' element={<ServiceDetail/>}/>
+        <Route path='/servicios/editar/:serviceId' element={<EditServices/>}/>
       </Routes>
     </div>
   );

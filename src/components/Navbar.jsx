@@ -33,6 +33,7 @@ const Navbar = () => {
                                 <Tab label="Servicios" value="/servicios" to="/servicios" component={Link}/>
                                 <Tab label="Acerca de" value="/acerca-de" to="acerca-de" component={Link}/>
                                 <Tab label="Reserva ahora!" value="/reserva-ahora" to="/reserva-ahora" component={Link}/>
+                                <Tab label="Añadir servicio" value="/añadir-servicio" to="/añadir-servicio" component={Link}/>
                             </Tabs>
                             </div>
                             <Button 
@@ -41,14 +42,14 @@ const Navbar = () => {
                             to='/login'
                             component={Link}
                             startIcon={<PersonOutlineIcon />} 
-                            sx={{ marginLeft: '10px', backgroundColor: '#E1306C', fontWeight: 'bold' }}>Login</Button>
+                            w>Login</Button>
                             <Button 
                             variant="contained"
                             value="/signup"
                             to='/signup'
                             component={Link}
                             startIcon={<AssignmentIcon />} 
-                            sx={{ marginLeft: '10px', fontWeight: 'bold' }}>Sign up</Button>
+                            sx={{ marginLeft: '10px', backgroundColor: '#E1306C', fontWeight: 'bold', color: "white" }}>Sign up</Button>
                         </div>
                     )}
                 </Toolbar>
