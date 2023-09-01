@@ -5,6 +5,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link } from 'react-router-dom';
 import logo from '../img/logo.png'
+import { AuthContext } from '../context/auth.context';
 
 const Navbar = () => {
     const [value, setValue] = React.useState();
@@ -12,6 +13,8 @@ const Navbar = () => {
     const theme = useTheme();
     const isMatch = useMediaQuery(theme.breakpoints.down('md'));
 
+    const { isLoggedIn } = React.useContext(AuthContext);
+    
     return (
         <React.Fragment>
             <AppBar position="sticky" elevation={0}>
@@ -36,20 +39,42 @@ const Navbar = () => {
                                 <Tab label="Añadir servicio" value="/añadir-servicio" to="/añadir-servicio" component={Link}/>
                             </Tabs>
                             </div>
+
+                            {
+                                isLoggedIn && (
+                                    <>
+                                        <Button 
+                                        variant="contained" 
+                                        value="/login"
+                                        to='/login'
+                                        component={Link}
+                                        startIcon={<PersonOutlineIcon />} 
+                                        >Logout</Button>
+                                    </>
+                                ) 
+                            }
+
+                            {
+                                !isLoggedIn  && (
+                                    <>
                             <Button 
                             variant="contained" 
                             value="/login"
                             to='/login'
                             component={Link}
                             startIcon={<PersonOutlineIcon />} 
-                            w>Login</Button>
+                            >Login</Button>
                             <Button 
                             variant="contained"
                             value="/signup"
                             to='/signup'
                             component={Link}
                             startIcon={<AssignmentIcon />} 
-                            sx={{ marginLeft: '10px', backgroundColor: '#E1306C', fontWeight: 'bold', color: "white" }}>Sign up</Button>
+                            sx={{ marginLeft: '10px', backgroundColor: '#E1306C', fontWeight: 'bold', color: "white" }}>Sign up</Button>                                    
+                                    </>
+                                )
+                            }
+
                         </div>
                     )}
                 </Toolbar>
