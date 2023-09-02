@@ -13,7 +13,7 @@ const Navbar = () => {
     const theme = useTheme();
     const isMatch = useMediaQuery(theme.breakpoints.down('md'));
 
-    const { isLoggedIn } = React.useContext(AuthContext);
+    const { isLoggedIn, logout } = React.useContext(AuthContext);
     
     return (
         <React.Fragment>
@@ -48,6 +48,7 @@ const Navbar = () => {
                                         value="/login"
                                         to='/login'
                                         component={Link}
+                                        onClick={logout}
                                         startIcon={<PersonOutlineIcon />} 
                                         >Logout</Button>
                                     </>

@@ -19,10 +19,10 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-function StyledButton({children}) {
+function StyledButton(props) {
   return (
-    <CustomButton>
-      {children}
+    <CustomButton {...props}>
+      {props.children}
     </CustomButton>
   );
 }
