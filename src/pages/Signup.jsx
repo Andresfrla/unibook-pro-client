@@ -35,7 +35,7 @@ const Signup = () => {
         try {
             e.preventDefault();
             const response = await axios.post(`${API_URL}/auth/signup`, signupForm)
-            console.log("repsonse: ", response)
+            console.log("response: ", response)
             navigate("/login")
         } catch (error) {
             setErrorMessage(error.response.data.message);
