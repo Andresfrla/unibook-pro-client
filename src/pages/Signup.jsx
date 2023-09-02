@@ -2,17 +2,17 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
-import DateInput from '../components/DateInput'; // Assuming this component supports a name attribute or callback function
-import PasswordField from '../components/PasswordField';
 import InstagramButton from '../components/InstagramButton';
 import StyledButton from '../components/StyledButton';
 import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { Button } from '@mui/material';
-import { API_URL } from '../utils/constants';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
+import { DatePicker } from '@mui/x-date-pickers';
+import { API_URL } from '../utils/constants';
 
 const initForm = {
     name: '',
@@ -32,25 +32,22 @@ const Signup = () => {
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
-            e.preventDefault();
-            const response = await axios.post(`${API_URL}/auth/signup`, signupForm)
-            console.log("response: ", response)
+            await axios.post(`${API_URL}/auth/signup`, signupForm)
             navigate("/login")
         } catch (error) {
+            console.log("error: ",error)
             setErrorMessage(error.response.data.message);
         }
     }
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setSignupForm({ ...signupForm, [name]: value });
+    const handleSignupForm = (nameField, value) => {
+
+        setSignupForm(prevState => ({ ...prevState, [nameField]: value }))
     }
 
-    // Callback function to update the dateOfBirth field
-    const handleDateChange = (date) => {
-        setSignupForm({ ...signupForm, dateOfBirth: date });
-    }
+    
 
     return (
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" margin={isMobile ? '50px 10px' : '150px'}>
@@ -67,8 +64,9 @@ const Signup = () => {
                             focused
                             InputProps={{ inputProps: { name: 'name' } }}
                             value={signupForm.name}
-                            onChange={handleChange}
+                            onChange={(e) => handleSignupForm('name', e.target.value)}
                         />
+
                         <TextField
                             label="Apellido"
                             sx={{ margin: '10px', width: '100%' }}
@@ -77,7 +75,7 @@ const Signup = () => {
                             focused
                             InputProps={{ inputProps: { name: 'lastName' } }}
                             value={signupForm.lastName}
-                            onChange={handleChange}
+                            onChange={(e) => handleSignupForm('lastName', e.target.value)}
                         />
                         <TextField
                             label="Correo"
@@ -87,18 +85,35 @@ const Signup = () => {
                             focused
                             InputProps={{ inputProps: { name: 'email' } }}
                             value={signupForm.email}
-                            onChange={handleChange}
+                            onChange={(e) => handleSignupForm('email', e.target.value)}
                         />
-                        <DateInput
+                        <DatePicker
                             label="Fecha de nacimiento"
                             name="dateOfBirth"
-                            handleDateChange={handleDateChange} // Pass the callback function
+                            value={signupForm.dateOfBirth}
+                            sx={{margin: '10px'}}
+                            onChange={(value) => {
+                                handleSignupForm('dateOfBirth', value.$d)
+                                console.log("value: ", value.$d)
+                                console.log("year: ", dayjs(value).get('year'))
+                                console.log("month: ", dayjs(value).get('month'))
+                                console.log("day: ", dayjs(value).get('date'))
+                            }
+                            }
                         />
-                        <PasswordField sx={{ width: '100%' }} />
+                        
+                        <TextField
+                        required
+                        name="password"
+                        label="Password"
+                        type="password"
+                        autoComplete="new-password"
+                        onChange={(e) => handleSignupForm("password", e.target.value)}
+                        />
                         <br />
-                        <StyledButton type="submit" fullWidth>Submit</StyledButton>
+                        <StyledButton type="submit">Submit</StyledButton>
                     </form>
-
+                    
                     { errorMessage && <p>{errorMessage}</p> }
 
                     <p>Ya hay una cuenta con este correo</p>
