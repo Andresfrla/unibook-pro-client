@@ -11,6 +11,7 @@ import About from './pages/About';
 import ServiceDetail from './pages/ServiceDetail';
 import AddService from './pages/AddService';
 import EditServices from './pages/EditServices';
+import CalendarGrid from './pages/CalendarGrid';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path='/añadir-servicio' element={<AddService/>}/>
         <Route path='/servicios/:serviceId' element={<ServiceDetail/>}/>
         <Route path='/servicios/editar/:serviceId' element={<EditServices/>}/>
+        <Route path='/calendario' element={<CalendarGrid/>}/>
       </Routes>
     </div>
   );

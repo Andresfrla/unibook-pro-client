@@ -37,6 +37,7 @@ const Navbar = () => {
                                 <Tab label="Acerca de" value="/acerca-de" to="acerca-de" component={Link}/>
                                 <Tab label="Reserva ahora!" value="/reserva-ahora" to="/reserva-ahora" component={Link}/>
                                 <Tab label="Añadir servicio" value="/añadir-servicio" to="/añadir-servicio" component={Link}/>
+                                <Tab label="Calendario" value="/calendario" to="/calendario" component={Link}/>
                             </Tabs>
                             </div>
 
