@@ -3,6 +3,7 @@ import founderImage from '../img/founder.jpg'
 import { Card, CardContent, Grid, useMediaQuery, useTheme } from '@mui/material';
 import ReserveNow from '../components/ReserveNow';
 import logo from '../img/logobnw.png'
+import ButtonCheckbox from '../components/ButtonCheckbox';
 
 export default function Home() {
     const theme = useTheme();
@@ -28,6 +29,8 @@ export default function Home() {
                     </Grid>
                 </CardContent>
             </Card>
+
+            <ButtonCheckbox label="Option 1" />
         </>
     );
 }

@@ -40,22 +40,26 @@ const Login = (props) => {
 
           navigate('/'); 
         } catch (error) {
-            const errorDescription = error.response.data.message;
-            setErrorMessage(errorDescription);
+            console.log("error.response.data.message: ", error.response.data.message)
+            if (error.response.data.message === "User not found.") {
+                try {
+                    const response = await authService.adminLogin(loginForm)
+                    storeToken(response.data.authToken); 
+                    authenticateUser();
+                    navigate('/'); 
+                }
+                catch (error) {
+                  const errorDescription = error.response.data.message;
+                  setErrorMessage(errorDescription);
+                  navigate('/signup');
+                }
+        
+            } else {
+                const errorDescription = error.response.data.message;
+                setErrorMessage(errorDescription);
+            }
         }
         
-        try {
-            const response = await authService.adminLogin(loginForm)
-            storeToken(response.data.authToken); 
-  
-            authenticateUser();
-  
-            navigate('/'); 
-        }
-        catch (error) {
-          const errorDescription = error.response.data.message;
-          setErrorMessage(errorDescription);
-        }
 
     }
 

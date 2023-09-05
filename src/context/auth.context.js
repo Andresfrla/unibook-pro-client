@@ -9,7 +9,7 @@ const AuthProvider = (props) => {
     const  [ isLoggedIn, setIsLoggedIn ] = useState(false);
     const [ user, setUser ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
-
+    
 
     const storeToken = (token) => {    
         localStorage.setItem('authToken', token);

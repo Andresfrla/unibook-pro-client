@@ -12,11 +12,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <React.StrictMode>
         <AuthProvider>
         <App />
         </AuthProvider>      
-      </React.StrictMode>
     </LocalizationProvider>
   </BrowserRouter>
 );
