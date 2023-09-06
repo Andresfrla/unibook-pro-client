@@ -79,6 +79,7 @@ const CalendarGrid = () => {
     e.preventDefault()
     try {
       const availableHours = filterAvailableHours();
+      console.log("availableHours: ", availableHours)
       calendarService.createOrUpdateCalendar(`/calendario/${adminId}`, availableHours) 
     } catch (error) {
       console.log(error)
