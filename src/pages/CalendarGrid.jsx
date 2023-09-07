@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Alert, Grid, Snackbar, Typography } from '@mui/material';
 import { format, addDays } from 'date-fns';
 import ButtonCheckbox from '../components/ButtonCheckbox';
 import StyledButton from '../components/StyledButton';
@@ -35,9 +35,13 @@ const CalendarGrid = () => {
   const [enabledHours, setEnabledHours] = useState([]);
   const [weekDays, setWeekDays] = useState([]);
   const [hourChecked, setHourChecked] = useState(checkedHours);
+  const [responseCalendarMessage, setResponseCalendarMessage ] = useState('');
+  const [open, setOpen] = React.useState(false);
 
   const {user} = useContext(AuthContext)
   const {_id : adminId} = user 
+
+  console.log("user: ", user)
 
   useEffect(() => {
     const today = new Date();
@@ -46,7 +50,8 @@ const CalendarGrid = () => {
       days.push(addDays(today, i));
     }
     setWeekDays(days);
-  }, []);
+    fetchCalendarData()
+  }, [open]);
 
   const toggleHour = (day, hour) => {
     if (enabledHours.includes(`${format(day, 'yyyy-MM-dd')}-${hour}`)) {
@@ -74,20 +79,51 @@ const CalendarGrid = () => {
     return selectedDays;
   }
 
-  
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  }
+
+  const fetchCalendarData = async () => {
+    const response = await calendarService.getCalendar(`/api/calendario/${adminId}` )
+    console.log("response: ", response)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       const availableHours = filterAvailableHours();
       console.log("availableHours: ", availableHours)
-      calendarService.createOrUpdateCalendar(`/calendario/${adminId}`, availableHours) 
+      const calendarData = { 
+        adminId ,
+        availableHours ,
+       }
+      const response = await calendarService.createOrUpdateCalendar(`/api/calendario/${adminId}`, calendarData) 
+      setResponseCalendarMessage(response.data.message)
     } catch (error) {
       console.log(error)
+      setResponseCalendarMessage(`Error sending data: ${error.message}`);
     }
+    setOpen(true)
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'top',horizontal: 'center' }}
+        sx={{ width: '70%', color: 'black' }}
+      >
+        <Alert 
+        severity="success">
+          {responseCalendarMessage}
+        </Alert>
+      </Snackbar>
+      <form onSubmit={handleSubmit}>
       <Grid container className="calendar-grid" alignItems="center" justifyContent="center">
       {weekDays.map((day) => (
         <Grid 
@@ -119,13 +155,16 @@ const CalendarGrid = () => {
         </Grid>
       ))}
       </Grid>
-
+      
+      
       <StyledButton
       type="submit"
       >
       Guardar
       </StyledButton>
     </form>
+    </>
+
   );
 };
 

@@ -20,7 +20,11 @@ const AuthProvider = (props) => {
         if(storedToken) {
             try {
                 const response = await authService.verify();
-                const user = response.data;
+                let user = response.data;
+                if (!user) {
+                    user = (await authService.verifyAdmin()).data
+                }
+                console.log("user: ", user)
                 setIsLoggedIn(true);
                 setIsLoading(false);
                 setUser(user); 
