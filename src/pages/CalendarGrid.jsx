@@ -17,7 +17,7 @@ const initCheckHours = (hours) => {
 
   for (const day of days) {
     for (const hour of hours) {
-      checkedHours [`${format(day, 'yyyy-MM-dd')}-${hour}` ] = false 
+      checkedHours[`${format(day, 'yyyy-MM-dd')}-${hour}`] = false
     }
   }
   return checkedHours
@@ -30,16 +30,16 @@ const CalendarGrid = () => {
   for (let i = 11; i <= 18; i++) {
     hours.push(`${i}:00`);
   }
-  
+
   const checkedHours = initCheckHours(hours)
   const [enabledHours, setEnabledHours] = useState([]);
   const [weekDays, setWeekDays] = useState([]);
   const [hourChecked, setHourChecked] = useState(checkedHours);
-  const [responseCalendarMessage, setResponseCalendarMessage ] = useState('');
+  const [responseCalendarMessage, setResponseCalendarMessage] = useState('');
   const [open, setOpen] = React.useState(false);
 
-  const {user} = useContext(AuthContext)
-  const {_id : adminId} = user 
+  const { user } = useContext(AuthContext)
+  const { _id: adminId } = user
 
   useEffect(() => {
     const today = new Date();
@@ -48,8 +48,8 @@ const CalendarGrid = () => {
       days.push(addDays(today, i));
     }
     setWeekDays(days);
-    fetchCalendarData()
-  }, [open]);
+    fetchCalendarData();
+  }, []);
 
   const toggleHour = (day, hour) => {
     if (enabledHours.includes(`${format(day, 'yyyy-MM-dd')}-${hour}`)) {
@@ -69,8 +69,8 @@ const CalendarGrid = () => {
   const filterAvailableHours = () => {
     const selectedDays = []
 
-    for (const [k,v] of Object.entries(hourChecked)) {
-      if(v) {
+    for (const [k, v] of Object.entries(hourChecked)) {
+      if (v) {
         selectedDays.push(k)
       }
     }
@@ -87,14 +87,10 @@ const CalendarGrid = () => {
   const fetchCalendarData = async () => {
     try {
       const response = await calendarService.getCalendar(`/api/calendario/${adminId}`);
-      const selectedHours = response.data.hourChecked;
-
-      if (selectedHours) {
-        // Merge the received selected hours with the initial state
-        setHourChecked((prevChecked) => ({
-          ...prevChecked,
-          ...selectedHours,
-        }));
+      const enabledDays = response.data.days;
+      const enabledTimeframes = enabledDays.map((day) => `${day.name}-${day.openedHours}:00`)
+      if (enabledTimeframes.length > 0) {
+        setEnabledHours(enabledTimeframes)
       }
     } catch (error) {
       console.log(error);
@@ -106,11 +102,11 @@ const CalendarGrid = () => {
     e.preventDefault()
     try {
       const availableHours = filterAvailableHours();
-      const calendarData = { 
-        adminId ,
-        availableHours ,
-       }
-      const response = await calendarService.createOrUpdateCalendar(`/api/calendario/${adminId}`, calendarData) 
+      const calendarData = {
+        adminId,
+        availableHours,
+      }
+      const response = await calendarService.createOrUpdateCalendar(`/api/calendario/${adminId}`, calendarData)
       setResponseCalendarMessage(response.data.message)
     } catch (error) {
       setResponseCalendarMessage(`Error sending data: ${error.message}`);
@@ -124,54 +120,52 @@ const CalendarGrid = () => {
         open={open}
         autoHideDuration={6000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top',horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         sx={{ width: '70%', color: 'black' }}
       >
-        <Alert 
-        severity="success">
+        <Alert
+          severity="success">
           {responseCalendarMessage}
         </Alert>
       </Snackbar>
       <form onSubmit={handleSubmit}>
-      <Grid container className="calendar-grid" alignItems="center" justifyContent="center">
-      {weekDays.map((day) => (
-        <Grid 
-        item key={format(day, 'yyyy-MM-dd')} 
-        xs={8} 
-        sm={1} 
-        sx={{margin: '10px'}}
-        >
-          <Typography variant="body1">{format(day, 'EEEE, dd/MM/yyyy')}</Typography>
-          {hours.map((hour, ) => (
-            <div
-              key={`${format(day, 'yyyy-MM-dd')}-${hour}`}
-              className={`hour-block ${enabledHours.includes(`${format(day, 'yyyy-MM-dd')}-${hour}`) ? 'enabled' : 'disabled'}`}
-              onClick={() => toggleHour(day, hour)}
-              style={{ padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        <Grid container className="calendar-grid" alignItems="center" justifyContent="center">
+          {weekDays.map((day) => (
+            <Grid
+              item key={format(day, 'yyyy-MM-dd')}
+              xs={8}
+              sm={1}
+              sx={{ margin: '10px' }}
             >
-              <ButtonCheckbox
-              label={enabledHours.includes(`${format(day, 'yyyy-MM-dd')}-${hour}`) ? `Deshabilitar ${hour}` : `Habilitar ${hour}`}
-              variant="contained" size="small"
-              name={`${format(day, 'yyyy-MM-dd')}-${hour}`}
-              checked={hourChecked[`${format(day, 'yyyy-MM-dd')}-${hour}`]}
-              onChange={handleHourChange}
-              key={`${format(day, 'yyyy-MM-dd')}-${hour}`}
-              > 
-              
-              </ButtonCheckbox>
-            </div>
+              <Typography variant="body1">{format(day, 'EEEE, dd/MM/yyyy')}</Typography>
+              {hours.map((hour,) => (
+                <div
+                  key={`${format(day, 'yyyy-MM-dd')}-${hour}`}
+                  className={`hour-block ${enabledHours.includes(`${format(day, 'yyyy-MM-dd')}-${hour}`) ? 'enabled' : 'disabled'}`}
+                  onClick={() => toggleHour(day, hour)}
+                  style={{ padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                >
+                  <ButtonCheckbox
+                    label={enabledHours.includes(`${format(day, 'yyyy-MM-dd')}-${hour}`) ? `Deshabilitar ${hour}` : `Habilitar ${hour}`}
+                    variant="contained" size="small"
+                    name={`${format(day, 'yyyy-MM-dd')}-${hour}`}
+                    checked={hourChecked[`${format(day, 'yyyy-MM-dd')}-${hour}`]}
+                    onChange={handleHourChange}
+                  >
+                  </ButtonCheckbox>
+                </div>
+              ))}
+            </Grid>
           ))}
         </Grid>
-      ))}
-      </Grid>
-      
-      
-      <StyledButton
-      type="submit"
-      >
-      Guardar
-      </StyledButton>
-    </form>
+
+
+        <StyledButton
+          type="submit"
+        >
+          Guardar
+        </StyledButton>
+      </form>
     </>
 
   );

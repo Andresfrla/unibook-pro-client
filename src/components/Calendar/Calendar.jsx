@@ -3,12 +3,11 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './Calendar.css'; 
 
-export default function Calendar() {
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
+export default function Calendar({
+  selectedDate
+  ,handleDateChange}) {
+  
+  
 
   return (
     <div>
