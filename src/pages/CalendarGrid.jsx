@@ -41,8 +41,6 @@ const CalendarGrid = () => {
   const {user} = useContext(AuthContext)
   const {_id : adminId} = user 
 
-  console.log("user: ", user)
-
   useEffect(() => {
     const today = new Date();
     const days = [];
@@ -87,15 +85,27 @@ const CalendarGrid = () => {
   }
 
   const fetchCalendarData = async () => {
-    const response = await calendarService.getCalendar(`/api/calendario/${adminId}` )
-    console.log("response: ", response)
-  }
+    try {
+      const response = await calendarService.getCalendar(`/api/calendario/${adminId}`);
+      const selectedHours = response.data.hourChecked;
+
+      if (selectedHours) {
+        // Merge the received selected hours with the initial state
+        setHourChecked((prevChecked) => ({
+          ...prevChecked,
+          ...selectedHours,
+        }));
+      }
+    } catch (error) {
+      console.log(error);
+      // Handle error here
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       const availableHours = filterAvailableHours();
-      console.log("availableHours: ", availableHours)
       const calendarData = { 
         adminId ,
         availableHours ,
@@ -103,7 +113,6 @@ const CalendarGrid = () => {
       const response = await calendarService.createOrUpdateCalendar(`/api/calendario/${adminId}`, calendarData) 
       setResponseCalendarMessage(response.data.message)
     } catch (error) {
-      console.log(error)
       setResponseCalendarMessage(`Error sending data: ${error.message}`);
     }
     setOpen(true)
