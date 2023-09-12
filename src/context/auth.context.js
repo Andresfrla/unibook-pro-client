@@ -9,7 +9,7 @@ const AuthProvider = (props) => {
     const  [ isLoggedIn, setIsLoggedIn ] = useState(false);
     const [ user, setUser ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
-    
+
 
     const storeToken = (token) => {    
         localStorage.setItem('authToken', token);
@@ -20,11 +20,7 @@ const AuthProvider = (props) => {
         if(storedToken) {
             try {
                 const response = await authService.verify();
-                let user = response.data;
-                if (!user) {
-                    user = (await authService.verifyAdmin()).data
-                }
-                console.log("user: ", user)
+                const user = response.data;
                 setIsLoggedIn(true);
                 setIsLoading(false);
                 setUser(user); 
