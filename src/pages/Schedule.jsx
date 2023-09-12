@@ -7,6 +7,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { format } from 'date-fns';
 
 const Schedule = () => {
 
@@ -15,11 +16,14 @@ const Schedule = () => {
     const [checkedServices, setCheckedServices] = useState([])
 
     const handleDateChange = (date) => {
-        setSelectedDate(date);
+        const formattedDate = format(date, 'yyyy-MM-dd'); // Formatear la fecha
+        setSelectedDate(formattedDate); // Establecer la fecha formateada en selectedDate
+        console.log("Fecha seleccionada:", formattedDate);
     };
 
     const handleHourChange = (event) => {
-        setSelectedHour(event.target.value);
+        const newSelectedHour = event.target.value 
+        setSelectedHour(newSelectedHour);
     };
 
     const isHourDisabled = (hour) => {
@@ -29,12 +33,12 @@ const Schedule = () => {
     const createReservation = () => {
         const payload = {
             dayInfo: selectedDate,
-            hours: selectedHours,
+            hours: selectedHour,
             services: checkedServices,
             userId: 'JWT',
             isAvailable: false,
         }
-        createReservationApi(payload)
+        // createReservationApi(payload)
     }
 
     return (
@@ -52,7 +56,7 @@ const Schedule = () => {
                             </div>
                         </Grid>
                         <Grid item xs={12} md={6} >
-                            <div >
+                            <div>
                                 <ResponsiveTimePickers
                                     selectedHour={selectedHour}
                                     handleHourChange={handleHourChange}
@@ -62,7 +66,7 @@ const Schedule = () => {
                                     checkedServices={checkedServices}
                                     setCheckedServices={setCheckedServices}
                                 />
-                                <StyledButton fullWidth onClick={() => createReservation()}>Reserva ahora!</StyledButton>
+                                <StyledButton onClick={() => createReservation()}>Reserva ahora!</StyledButton>
                             </div>
                         </Grid>
                     </Grid>

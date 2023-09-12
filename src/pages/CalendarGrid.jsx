@@ -31,17 +31,21 @@ const CalendarGrid = () => {
     hours.push(`${i}:00`);
   }
 
-  const checkedHours = initCheckHours(hours)
+
   const [enabledHours, setEnabledHours] = useState([]);
   const [weekDays, setWeekDays] = useState([]);
-  const [hourChecked, setHourChecked] = useState(checkedHours);
   const [responseCalendarMessage, setResponseCalendarMessage] = useState('');
   const [open, setOpen] = React.useState(false);
+  const [mongoDate, setMongoDate] = useState([]);
 
   const { user } = useContext(AuthContext)
   const { _id: adminId } = user
 
+  const checkedHours = initCheckHours(hours)
+  const [hourChecked, setHourChecked] = useState(checkedHours);
+  
   useEffect(() => {
+    console.log('Efecto de carga de datos del calendario'); // Agregar un registro de depuración aquí
     const today = new Date();
     const days = [];
     for (let i = 0; i < 7; i++) {
@@ -51,13 +55,30 @@ const CalendarGrid = () => {
     fetchCalendarData();
   }, []);
 
-  const toggleHour = (day, hour) => {
-    if (enabledHours.includes(`${format(day, 'yyyy-MM-dd')}-${hour}`)) {
-      setEnabledHours(enabledHours.filter((item) => item !== `${format(day, 'yyyy-MM-dd')}-${hour}`));
-    } else {
-      setEnabledHours([...enabledHours, `${format(day, 'yyyy-MM-dd')}-${hour}`]);
+  const toggleHour = async (day, hour, adminId) => {
+
+    try {      
+      console.log('toggleHour llamada');
+      const timeframe = `${format(day, 'yyyy-MM-dd')}-${hour}`;
+      console.log("timeframe: ", timeframe)
+      
+      if (enabledHours.includes(timeframe)) {
+        console.log('Hora deshabilitada:', timeframe);
+
+        // Actualizar el estado para reflejar los cambios después de eliminar
+        setEnabledHours((prevEnabledHours) => prevEnabledHours.filter((item) => item !== timeframe));
+        console.log('Hora y día eliminados:', timeframe);
+      } else {
+        console.log('Hora habilitada:', timeframe);
+        setEnabledHours([...enabledHours, timeframe]);
+      }
+      console.log('enabledHours: ', enabledHours)
+    } catch (error) {
+      console.error('Error al eliminar el día y la hora:', error);
+      // Maneja el error según tus necesidades
     }
   };
+  
 
   const handleHourChange = (event) => {
     setHourChecked((prevChecked) => ({
@@ -86,14 +107,24 @@ const CalendarGrid = () => {
 
   const fetchCalendarData = async () => {
     try {
+      console.log('Obteniendo datos del calendario desde el servidor'); // Agregar un registro de depuración aquí
       const response = await calendarService.getCalendar(`/api/calendario/${adminId}`);
       const enabledDays = response.data.days;
-      const enabledTimeframes = enabledDays.map((day) => `${day.name}-${day.openedHours}:00`)
+      setMongoDate(enabledDays)
+      console.log("🚀 ~ file: CalendarGrid.jsx:116 ~ fetchCalendarData ~ enabledDays:", enabledDays)
+      const enabledTimeframes = enabledDays.flatMap((day) => day.openedHours.flatMap(hour => `${day.name}-${hour}:00`))
+      console.log("🚀 ~ file: CalendarGrid.jsx:122 ~ fetchCalendarData ~ enabledTimeframes:", enabledTimeframes)
       if (enabledTimeframes.length > 0) {
-        setEnabledHours(enabledTimeframes)
+        const updatedHourChecked = {...hourChecked};
+        for (const enabledTimeframe of enabledTimeframes) {
+          updatedHourChecked[enabledTimeframe] = false;
+        }
+        setHourChecked(updatedHourChecked);
+        setEnabledHours(...enabledTimeframes)
       }
     } catch (error) {
       console.log(error);
+      console.log('Error al obtener datos del calendario:', error); // Agregar un registro de depuración aquí
       // Handle error here
     }
   };
@@ -101,6 +132,7 @@ const CalendarGrid = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+      console.log('Enviando datos al servidor'); // Registro de depuración
       const availableHours = filterAvailableHours();
       const calendarData = {
         adminId,
@@ -109,6 +141,7 @@ const CalendarGrid = () => {
       const response = await calendarService.createOrUpdateCalendar(`/api/calendario/${adminId}`, calendarData)
       setResponseCalendarMessage(response.data.message)
     } catch (error) {
+      console.log('Error al enviar datos al servidor:', error); // Registro de depuración de errores
       setResponseCalendarMessage(`Error sending data: ${error.message}`);
     }
     setOpen(true)
@@ -138,11 +171,12 @@ const CalendarGrid = () => {
               sx={{ margin: '10px' }}
             >
               <Typography variant="body1">{format(day, 'EEEE, dd/MM/yyyy')}</Typography>
-              {hours.map((hour,) => (
+              {hours.map((hour) => (
                 <div
                   key={`${format(day, 'yyyy-MM-dd')}-${hour}`}
                   className={`hour-block ${enabledHours.includes(`${format(day, 'yyyy-MM-dd')}-${hour}`) ? 'enabled' : 'disabled'}`}
-                  onClick={() => toggleHour(day, hour)}
+                  onClick={() => {
+                    toggleHour(day, hour, adminId)}}
                   style={{ padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
                 >
                   <ButtonCheckbox
