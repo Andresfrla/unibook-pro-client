@@ -36,7 +36,6 @@ const CalendarGrid = () => {
   const [weekDays, setWeekDays] = useState([]);
   const [responseCalendarMessage, setResponseCalendarMessage] = useState('');
   const [open, setOpen] = React.useState(false);
-  const [mongoDate, setMongoDate] = useState([]);
 
   const { user } = useContext(AuthContext)
   const { _id: adminId } = user
@@ -109,18 +108,20 @@ const CalendarGrid = () => {
     try {
       console.log('Obteniendo datos del calendario desde el servidor'); // Agregar un registro de depuración aquí
       const response = await calendarService.getCalendar(`/api/calendario/${adminId}`);
-      const enabledDays = response.data.days;
-      setMongoDate(enabledDays)
-      console.log("🚀 ~ file: CalendarGrid.jsx:116 ~ fetchCalendarData ~ enabledDays:", enabledDays)
-      const enabledTimeframes = enabledDays.flatMap((day) => day.openedHours.flatMap(hour => `${day.name}-${hour}:00`))
-      console.log("🚀 ~ file: CalendarGrid.jsx:122 ~ fetchCalendarData ~ enabledTimeframes:", enabledTimeframes)
-      if (enabledTimeframes.length > 0) {
-        const updatedHourChecked = {...hourChecked};
-        for (const enabledTimeframe of enabledTimeframes) {
-          updatedHourChecked[enabledTimeframe] = false;
+      console.log('response.data: ', response.data)
+      const enabledDays = response.data.calendar.days;
+      if(response.data.hasCalendar) {
+        console.log("🚀 ~ file: CalendarGrid.jsx:116 ~ fetchCalendarData ~ enabledDays:", enabledDays)
+        const enabledTimeframes = enabledDays.flatMap((day) => day.openedHours.flatMap(hour => `${day.name}-${hour}:00`))
+        console.log("🚀 ~ file: CalendarGrid.jsx:122 ~ fetchCalendarData ~ enabledTimeframes:", enabledTimeframes)
+        if (enabledTimeframes.length > 0) {
+          const updatedHourChecked = {...hourChecked};
+          for (const enabledTimeframe of enabledTimeframes) {
+            updatedHourChecked[enabledTimeframe] = false;
+          }
+          setHourChecked(updatedHourChecked);
+          setEnabledHours(enabledTimeframes)
         }
-        setHourChecked(updatedHourChecked);
-        setEnabledHours(...enabledTimeframes)
       }
     } catch (error) {
       console.log(error);
