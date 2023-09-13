@@ -2,7 +2,7 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
-import InstagramButton from '../components/InstagramButton';
+// import InstagramButton from '../components/InstagramButton';
 import StyledButton from '../components/StyledButton';
 import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -54,7 +54,7 @@ const Signup = () => {
             <Card variant="outlined" sx={{ width: '100%', maxWidth: 400, padding: 2, boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.1)' }}>
                 <CardContent>
                     <form onSubmit={handleSubmit}>
-                        <h3>Registrate <br /> o <br /><InstagramButton /></h3>
+                        <h3>Registrate </h3>
                         <br />
                         <TextField
                             label="Nombre"
@@ -114,12 +114,14 @@ const Signup = () => {
                         <StyledButton type="submit">Submit</StyledButton>
                     </form>
                     
-                    { errorMessage && <p>{errorMessage}</p> }
-
-                    <p>Ya hay una cuenta con este correo</p>
+                    { errorMessage && <p>
+                        <p>Ya hay una cuenta con este correo</p>
                     <Button 
                     to="/login"
                     component={Link}>Login</Button><br/>
+                        {errorMessage}</p> }
+
+
                 </CardContent>
             </Card>
         </Box>
