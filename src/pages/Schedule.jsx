@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Calendar from "../components/Calendar/Calendar"
 import CheckboxServices from "../components/CheckboxServices"
 import ResponsiveTimePickers from "../components/HourPicker"
@@ -7,32 +7,46 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
+import { AuthContext } from '../context/auth.context';
 
 const Schedule = () => {
 
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedHour, setSelectedHour] = useState(11); // Default value: 11
     const [checkedServices, setCheckedServices] = useState([])
-
+    
+    const { user } = useContext(AuthContext);
+     console.log("🚀 ~ file: Schedule.jsx:20 ~ Schedule ~ user:", user)
+     
     const handleDateChange = (date) => {
-        const formattedDate = format(date, 'yyyy-MM-dd'); // Formatear la fecha
-        setSelectedDate(formattedDate); // Establecer la fecha formateada en selectedDate
-        console.log("Fecha seleccionada:", formattedDate);
+        if (isValid(date)) {
+            setSelectedDate(date); // Establecer la fecha formateada en selectedDate
+        } else {
+            console.log("Fecha invalida: ", date)
+        }
+
     };
 
     const handleHourChange = (event) => {
         const newSelectedHour = event.target.value 
+        console.log("🚀 ~ file: Schedule.jsx:29 ~ handleHourChange ~ newSelectedHour:", newSelectedHour)
+        
         setSelectedHour(newSelectedHour);
     };
 
     const isHourDisabled = (hour) => {
+        // TO DO: hacer la funcion async para que traiga las horas disponibles
+        
         return hour < 11 || hour > 19; // Disable hours before 11 AM and after 7 PM
     };
 
     const createReservation = () => {
+        const formattedDate = format(selectedDate, 'yyyy-MM-dd')
+        console.log("🚀 ~ file: Schedule.jsx:38 ~ createReservation ~ formattedDate:", formattedDate)
+        
         const payload = {
-            dayInfo: selectedDate,
+            dayInfo: formattedDate,
             hours: selectedHour,
             services: checkedServices,
             userId: 'JWT',

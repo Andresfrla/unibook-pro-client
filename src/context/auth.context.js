@@ -29,6 +29,17 @@ const AuthProvider = (props) => {
                     setIsLoading(false);
                     setUser(null);  
                 }
+            try {
+                const response = await authService.verifyAdmin();
+                const user = response.data;
+                setIsLoggedIn(true);
+                setIsLoading(false);
+                setUser(user);
+            } catch (error) {
+                setIsLoggedIn(false);
+                setIsLoading(false);
+                setUser(null);  
+            }
 
         } else {
             setIsLoggedIn(false);
