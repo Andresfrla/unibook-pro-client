@@ -9,6 +9,8 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { format, isValid } from 'date-fns';
 import { AuthContext } from '../context/auth.context';
+import ReservationService from '../services/reservation.service';
+import calendarService from '../services/calendar.service';
 
 const Schedule = () => {
 
@@ -17,7 +19,7 @@ const Schedule = () => {
     const [checkedServices, setCheckedServices] = useState([])
     
     const { user } = useContext(AuthContext);
-     console.log("🚀 ~ file: Schedule.jsx:20 ~ Schedule ~ user:", user)
+    const { _id: userId } = user
      
     const handleDateChange = (date) => {
         if (isValid(date)) {
@@ -35,24 +37,24 @@ const Schedule = () => {
         setSelectedHour(newSelectedHour);
     };
 
-    const isHourDisabled = (hour) => {
+    const isHourDisabled = async (hour) => {
         // TO DO: hacer la funcion async para que traiga las horas disponibles
-        
+        // const calendarByAdmin = await calendarService.getCalendar(`/${adminId}`)
         return hour < 11 || hour > 19; // Disable hours before 11 AM and after 7 PM
     };
 
-    const createReservation = () => {
+    const createReservation = async () => {
         const formattedDate = format(selectedDate, 'yyyy-MM-dd')
-        console.log("🚀 ~ file: Schedule.jsx:38 ~ createReservation ~ formattedDate:", formattedDate)
         
         const payload = {
             dayInfo: formattedDate,
             hours: selectedHour,
             services: checkedServices,
-            userId: 'JWT',
+            userId,
             isAvailable: false,
         }
         // createReservationApi(payload)
+        // const response = await ReservationService.createReservation(`/user/${adminId}`)
     }
 
     return (

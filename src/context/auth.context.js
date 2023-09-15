@@ -1,5 +1,4 @@
-import { createContext,  useState } from "react"
-import { useEffect } from "react";
+import { createContext,  useState , useEffect} from "react"
 import authService from "../services/auth.service";
 
 const AuthContext = createContext();
@@ -9,7 +8,7 @@ const AuthProvider = (props) => {
     const  [ isLoggedIn, setIsLoggedIn ] = useState(false);
     const [ user, setUser ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(true);
-
+    const [ role, setRole ] = useState(null)
 
     const storeToken = (token) => {    
         localStorage.setItem('authToken', token);
@@ -17,34 +16,28 @@ const AuthProvider = (props) => {
 
     const authenticateUser = async () => {
         const storedToken = localStorage.getItem('authToken');
+        console.log("🚀 ~ file: auth.context.js:19 ~ authenticateUser ~ storedToken:", storedToken)
         if(storedToken) {
             try {
                 const response = await authService.verify();
                 const user = response.data;
+                console.log("user: ", user)
                 setIsLoggedIn(true);
                 setIsLoading(false);
                 setUser(user); 
+                setRole(user.role)
                 } catch (error) {
                     setIsLoggedIn(false);
                     setIsLoading(false);
-                    setUser(null);  
+                    setUser(null);
+                    setRole(null);  
                 }
-            try {
-                const response = await authService.verifyAdmin();
-                const user = response.data;
-                setIsLoggedIn(true);
-                setIsLoading(false);
-                setUser(user);
-            } catch (error) {
-                setIsLoggedIn(false);
-                setIsLoading(false);
-                setUser(null);  
-            }
 
         } else {
             setIsLoggedIn(false);
             setIsLoading(false);
-            setUser(null);  
+            setUser(null);
+            setRole(null);  
         }
     }
 
@@ -62,13 +55,15 @@ const AuthProvider = (props) => {
         setIsLoggedIn(false);
         setIsLoading(false);
         setUser(null);  
+        setRole(null)
     }
 
     return (
         <AuthContext.Provider 
             value={{ 
                 isLoggedIn, 
-                user, 
+                user,
+                role, 
                 isLoading, 
                 storeToken,
                 authenticateUser,

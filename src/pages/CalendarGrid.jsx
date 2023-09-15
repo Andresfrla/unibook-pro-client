@@ -38,7 +38,6 @@ const CalendarGrid = () => {
   const [open, setOpen] = React.useState(false);
 
   const { user } = useContext(AuthContext)
-  console.log("🚀 ~ file: CalendarGrid.jsx:41 ~ CalendarGrid ~ user:", user)
   const { _id: adminId } = user
 
   const checkedHours = initCheckHours(hours)

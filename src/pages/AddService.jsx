@@ -4,6 +4,7 @@ import { useState } from "react";
 import { API_URL } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
 
+
 const initService = {
     image: '',
     name: '',
@@ -45,12 +46,14 @@ const AddService = () => {
                         type='text' 
                         name='name'
                         value={serviceStateForm.name}
-                        onChange={(e) => updateServiceForm('name', e.target.value)} 
+                        onChange={(e) => updateServiceForm('name', e.target.value)}
+                        placeholder="Microblading" 
                         style={{ width: '100%', padding: '5px' }} />
                         <label style={{ display: 'block', marginTop: '10px' }}>Precio:</label>
                         <input 
                         type='number' 
                         name='price' 
+                        placeholder="300 (No incluyas simbolos $ ni . puntos)" 
                         value={serviceStateForm.price}
                         onChange={(e) => updateServiceForm('price', e.target.value)} 
                         style={{ width: '100%', padding: '5px' }} />
@@ -60,6 +63,7 @@ const AddService = () => {
                         name='image' 
                         value={serviceStateForm.image}
                         onChange={(e) => updateServiceForm('image', e.target.value)} 
+                        placeholder="Inserta la URL de tu foto" 
                         style={{ width: '100%', padding: '5px' }} />
                         <label style={{ display: 'block', marginTop: '10px' }}>Descripcion:</label>
                         <textarea
@@ -74,6 +78,7 @@ const AddService = () => {
                         type='number' 
                         name='duration' 
                         value={serviceStateForm.duration} 
+                        placeholder="3 numero de horas que dura el servicio" 
                         onChange={(e) => updateServiceForm('duration', e.target.value)} 
                         style={{ width: '100%', padding: '5px' }} />
                     </CardContent>
