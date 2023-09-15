@@ -14,7 +14,6 @@ export default function CheckboxServices({ checkedServices, setCheckedServices }
   const handleCheckboxChange = (serviceId, isChecked) => {
     if (isChecked) {
       setCheckedServices(prev => [...prev, serviceId]); // Add the service ID if checked
-      console.log("🚀 ~ file: CheckboxServices.jsx:22 ~ handleCheckboxChange ~ serviceId:", serviceId)
     } else {
       setCheckedServices(prev => prev.filter(id => id !== serviceId)); // Remove the service ID if unchecked
     }

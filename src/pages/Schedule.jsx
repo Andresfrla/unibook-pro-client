@@ -32,8 +32,6 @@ const Schedule = () => {
 
     const handleHourChange = (event) => {
         const newSelectedHour = event.target.value 
-        console.log("🚀 ~ file: Schedule.jsx:29 ~ handleHourChange ~ newSelectedHour:", newSelectedHour)
-        
         setSelectedHour(newSelectedHour);
     };
 

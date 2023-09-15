@@ -16,7 +16,6 @@ const AuthProvider = (props) => {
 
     const authenticateUser = async () => {
         const storedToken = localStorage.getItem('authToken');
-        console.log("🚀 ~ file: auth.context.js:19 ~ authenticateUser ~ storedToken:", storedToken)
         if(storedToken) {
             try {
                 const response = await authService.verify();

@@ -37,7 +37,6 @@ const Signup = () => {
             await axios.post(`${API_URL}/auth/signup`, signupForm)
             navigate("/login")
         } catch (error) {
-            console.log("error: ",error)
             setErrorMessage(error.response.data.message);
         }
     }
@@ -94,10 +93,6 @@ const Signup = () => {
                             sx={{margin: '10px'}}
                             onChange={(value) => {
                                 handleSignupForm('dateOfBirth', value.$d)
-                                console.log("value: ", value.$d)
-                                console.log("year: ", dayjs(value).get('year'))
-                                console.log("month: ", dayjs(value).get('month'))
-                                console.log("day: ", dayjs(value).get('date'))
                             }
                             }
                         />

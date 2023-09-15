@@ -40,7 +40,6 @@ const Login = (props) => {
 
           navigate('/'); 
         } catch (error) {
-            console.log("error.response.data.message: ", error.response.data.message)
             if (error.response.data.message === "User not found.") {
                 try {
                     const response = await authService.adminLogin(loginForm)

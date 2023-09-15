@@ -10,9 +10,12 @@ import { API_URL } from '../utils/constants';
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import { AuthContext } from '../context/auth.context';
 
 export default function Service() {
   const [services, setServices] = React.useState([]);
+
+  const { isLoggedIn, role } = React.useContext(AuthContext);
 
   const getAllServices = async () => {
     try{
@@ -61,7 +64,10 @@ export default function Service() {
                 Mas info
               </Button> */}
 
-              <Button 
+              {
+                isLoggedIn && role ==='admin' && (
+                <>
+                <Button 
                 size="small"
                 sx={{color: "black"}}
                 onClick={() => deleteService(service._id)}
@@ -77,6 +83,8 @@ export default function Service() {
               >
                 <EditNoteIcon />
               </Button>
+              </>
+              )}
             </CardActions>
           </Card>
         </div>
