@@ -6,16 +6,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 
-export default function DigitalClockTimeStep() {
-  const [selectedHour, setSelectedHour] = React.useState(11); // Default value: 11
-
-  const handleHourChange = (event) => {
-    setSelectedHour(event.target.value);
-  };
-
-  const isHourDisabled = (hour) => {
-    return hour < 11 || hour > 19; // Disable hours before 11 AM and after 7 PM
-  };
+export default function DigitalClockTimeStep({selectedHour,  handleHourChange,  isHourDisabled}) {
+  
 
   return (
     <div style={{margin: '40px'}}>

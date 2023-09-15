@@ -13,7 +13,7 @@ const Navbar = () => {
     const theme = useTheme();
     const isMatch = useMediaQuery(theme.breakpoints.down('md'));
 
-    const { isLoggedIn, logout } = React.useContext(AuthContext);
+    const { isLoggedIn, logout, role } = React.useContext(AuthContext);
     
     return (
         <React.Fragment>
@@ -27,17 +27,28 @@ const Navbar = () => {
                     ) : (
                         <div style={{ display: 'flex', alignItems: 'center'}}>
                             <div style={{ margin: 'auto' }}>
-                            <Tabs
-                                value={value}
-                                onChange={(e, value) => setValue(value)}
-                                textColor="inherit"
-                                indicatorColor="secondary"
-                            >
+                            <Tabs>
                                 <Tab label="Servicios" value="/servicios" to="/servicios" component={Link}/>
                                 <Tab label="Acerca de" value="/acerca-de" to="acerca-de" component={Link}/>
-                                <Tab label="Reserva ahora!" value="/reserva-ahora" to="/reserva-ahora" component={Link}/>
-                                <Tab label="Añadir servicio" value="/añadir-servicio" to="/añadir-servicio" component={Link}/>
-                                <Tab label="Calendario" value="/calendario" to="/calendario" component={Link}/>
+                                {!isLoggedIn && <Tab label="Reserva ahora!" value="/signup" to="/signup" component={Link}/>
+                                }
+                                {
+                                    isLoggedIn && (
+                                        <>
+                                        <Tab label="Reserva ahora!" value="/reserva-ahora" to="/reserva-ahora" component={Link}/>
+                                        </>
+                                    )
+                                }
+
+                                {
+                                    isLoggedIn && role === 'admin' && (
+                                        <>
+                                        <Tab label="Añadir servicio" value="/añadir-servicio" to="/añadir-servicio" component={Link}/>
+                                        <Tab label="Calendario" value="/calendario" to="/calendario" component={Link}/>
+                                        </>
+                                    )
+                                }
+
                             </Tabs>
                             </div>
 
