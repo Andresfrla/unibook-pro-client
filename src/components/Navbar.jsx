@@ -26,30 +26,28 @@ const Navbar = () => {
                         <DrawerComp />
                     ) : (
                         <div style={{ display: 'flex', alignItems: 'center'}}>
-                            <div style={{ margin: 'auto' }}>
-                            <Tabs>
-                                <Tab label="Servicios" value="/servicios" to="/servicios" component={Link}/>
-                                <Tab label="Acerca de" value="/acerca-de" to="acerca-de" component={Link}/>
-                                {!isLoggedIn && <Tab label="Reserva ahora!" value="/signup" to="/signup" component={Link}/>
-                                }
-                                {
-                                    isLoggedIn && (
-                                        <>
-                                        <Tab label="Reserva ahora!" value="/reserva-ahora" to="/reserva-ahora" component={Link}/>
-                                        </>
-                                    )
-                                }
+                            <div style={{ alignContent: 'center' }}>
+                            <Tabs value={value} onChange={(e, newValue) => setValue(newValue)}>
+                                <Tab label="Servicios" value="/servicios" to="/servicios" component={Link} style={{ color: 'white' }}/>
+                                <Tab label="Acerca de" value="/acerca-de" to="/acerca-de" component={Link} style={{ color: 'white' }}/>
+                                <Tab 
+                                label="Reserva ahora!" 
+                                value={isLoggedIn ? "/reserva-ahora" : "/signup"} 
+                                to={isLoggedIn ? "/reserva-ahora" : "/signup"} 
+                                component={Link}
+                                style={{ color: 'white' }}
+                                />
 
-                                {
-                                    isLoggedIn && role === 'admin' && (
-                                        <>
-                                        <Tab label="Añadir servicio" value="/añadir-servicio" to="/añadir-servicio" component={Link}/>
-                                        <Tab label="Calendario" value="/calendario" to="/calendario" component={Link}/>
-                                        </>
-                                    )
-                                }
+    {
+        isLoggedIn && role === 'admin' && (
+            <>
+            <Tab label="Añadir servicio" value="/añadir-servicio" to="/añadir-servicio" component={Link}/>
+            <Tab label="Calendario" value="/calendario" to="/calendario" component={Link}/>
+            </>
+        )
+    }
+</Tabs>
 
-                            </Tabs>
                             </div>
 
                             {
