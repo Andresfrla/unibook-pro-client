@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+console.log("Environment:", process.env.REACT_APP_ENV);
+console.log("Server URL:", process.env.REACT_APP_SERVER_URL);
+
 let baseUrl = process.env.REACT_APP_ENV === 'production'
     ? process.env.REACT_APP_SERVER_URL
     : 'http://localhost:5005';
