@@ -7,10 +7,13 @@ import logo from '../img/logobnw.png'
 export default function Home() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const { isLoggedIn } = React.useContext(AuthContext);
 
     return (
-        <>
-            <ReserveNow />
+        <>  
+            {
+              isLoggedIn &&  <ReserveNow />
+            }
             <Card sx={{ margin: 2 }}>
                 <CardContent>
                     <Grid container spacing={isMobile ? 2 : 4}>
