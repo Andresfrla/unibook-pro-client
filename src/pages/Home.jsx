@@ -3,13 +3,13 @@ import founderImage from '../img/founder.jpg'
 import { Card, CardContent, Grid, useMediaQuery, useTheme } from '@mui/material';
 import ReserveNow from '../components/ReserveNow';
 import logo from '../img/logobnw.png'
+import { AuthContext } from '../context/auth.context';
 
 export default function Home() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const { isLoggedIn } = React.useContext(AuthContext);
 
-    
     return (
         <>  
             {
