@@ -9,6 +9,7 @@ export default function Home() {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const { isLoggedIn } = React.useContext(AuthContext);
 
+    
     return (
         <>  
             {
